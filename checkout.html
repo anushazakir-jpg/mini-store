@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - Mini Store</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <h1 class="logo">Mini Store</h1>
+      <ul>
+        <li><a href="index.html">🏠 Home</a></li>
+        <li><a href="cart.html">🛒 Cart</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="checkout-page">
+    <h2 class="page-title">💳 Checkout</h2>
+
+    <!-- Order Summary -->
+    <section id="checkoutSummary" class="checkout-summary"></section>
+
+    <!-- Checkout Form -->
+    <form id="checkoutForm" class="checkout-form">
+      <label for="name">Full Name:</label>
+      <input type="text" id="name" required>
+
+      <label for="email">Email Address:</label>
+      <input type="email" id="email" required>
+
+      <label for="phone">Phone:</label>
+      <input type="tel" id="phone" required>
+
+      <label for="address">Shipping Address:</label>
+      <textarea id="address" required></textarea>
+
+      <label for="payment">Payment Method:</label>
+      <select id="payment" required>
+        <option value="">Select Payment</option>
+        <option value="cod">Cash on Delivery</option>
+        <option value="stripe">Stripe (Coming Soon)</option>
+        <option value="paypal">PayPal (Coming Soon)</option>
+      </select>
+
+      <button type="submit" class="checkout-btn">✅ Confirm Order</button>
+    </form>
+  </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const checkoutForm = document.getElementById("checkoutForm");
+      const checkoutSummary = document.getElementById("checkoutSummary");
+
+      // Load cart
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+      if (cart.length === 0) {
+        checkoutSummary.innerHTML = "<p>Your cart is empty 🛒</p>";
+        checkoutForm.style.display = "none";
+        return;
+      }
+
+      // Render order summary
+      let subtotal = 0;
+      cart.forEach(item => {
+        subtotal += item.price * (item.quantity || 1);
+      });
+      const tax = Math.round(subtotal * 0.1);
+      const total = subtotal + tax;
+
+      checkoutSummary.innerHTML = `
+        <h3>🧾 Order Summary</h3>
+        <ul>
+          ${cart.map(item => `
+            <li>${item.name} (x${item.quantity || 1}) - Rs ${item.price * (item.quantity || 1)}</li>
+          `).join("")}
+        </ul>
+        <p>Subtotal: Rs ${subtotal}</p>
+        <p>Tax (10%): Rs ${tax}</p>
+        <p class="total"><strong>Total: Rs ${total}</strong></p>
+      `;
+
+      // Handle checkout
+      checkoutForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const order = {
+          name: document.getElementById("name").value,
+          email: document.getElementById("email").value,
+          phone: document.getElementById("phone").value,
+          address: document.getElementById("address").value,
+          payment: document.getElementById("payment").value,
+          items: cart,
+          total
+        };
+
+        // Save order temporarily (future: send to backend)
+        localStorage.setItem("lastOrder", JSON.stringify(order));
+
+        alert("✅ Order placed successfully! Thank you, " + order.name);
+        localStorage.removeItem("cart");
+        window.location.href = "index.html";
+      });
+    });
+  </script>
+</body>
+</html>

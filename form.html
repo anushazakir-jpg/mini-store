@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upload Product</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <h1 class="logo">Mini Store</h1>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="product.html">Products</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="form-section">
+    <h2>Upload Product</h2>
+    <form id="productForm">
+      <input type="text" id="name" placeholder="Product Name" required />
+      <input type="text" id="price" placeholder="Price" required />
+      <input type="text" id="category" placeholder="Category" required />
+      <input type="text" id="audience" placeholder="Target Audience" />
+    
+<textarea id="description" placeholder="Enter or generate description"></textarea>
+<button type="button" id="generateDescription">✨ Generate Description</button>
+
+
+      <label for="images">Upload Product Images</label>
+      <input type="file" id="images" accept="image/*" multiple required />
+
+      <label for="template">Choose Template</label>
+      <select id="template" required>
+        <option value="template1">Template 1 (Gallery)</option>
+        <option value="template2">Template 2 (Interactive)</option>
+      </select>
+
+      <button type="submit" class="btn">Save Product</button>
+    </form>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>

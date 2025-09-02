@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Page</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <h1 class="logo">Mini Store</h1>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="cart.html">🛒 Cart (<span id="cartCount">0</span>)</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Products will render here -->
+  <section id="productContainer" class="products"></section>
+
+
+  <script src="script.js"></script>
+  <script>
+    // Simple Export Logic
+    document.getElementById("exportBtn").addEventListener("click", () => {
+      const zipContent = `
+        Mini Store Export:
+        - index.html
+        - product.html
+        - cart.html
+        - checkout.html
+        - style.css
+        - script.js
+      `;
+      const blob = new Blob([zipContent], { type: "text/plain" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "MiniStoreExport.txt"; // (demo export as text, zip integration possible)
+      link.click();
+    });
+  </script>
+</body>
+</html>
